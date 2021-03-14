@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:v-on="http://www.w3.org/1999/xhtml">
+<head th:replace="fragments/header :: header('Register')"/>
+<body>`
+<div id="root">
+    <div th:replace="fragments/nav :: nav"></div>
+    <div class="container">
+        <div class="row">
+            <div class="twelve columns">
+                <h4 id="loginHeader">Login</h4>
+                <div class="six columns align-center">
+                    <label for="username">Username</label>
+                    <input class="u-full-width" id="username" placeholder="yourUsername" type="text"
+                           v-model="username"/>
+                    <label for="password">Password</label>
+                    <input class="u-full-width" id="password" type="password" v-model="password"/>
+                    <label for="passwordConfirm">Confirm password</label>
+                    <input class="u-full-width" id="passwordConfirm" type="password" v-model="passwordConfirm"/>
+                    <input class="u-full-width button-primary" type="submit" v-on:click="register" value="Submit"/>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<div th:replace="fragments/footer :: foot"></div>
+<script>
+    var app = new Vue({
+        el: '#root',
+        mounted() {
+            Event.$on('logged-in', function () {
+                window.location.replace("/");
+            })
+        },
+        data: {
+            username: '',
+            password: '',
+            passwordConfirm: ''
+        },
+        methods: {
+            register() {
+                if (this.password !== this.passwordConfirm) {
+                    alert("Passwords do not match");
+                    return;
+                }
+                axios({
+                    method: 'post',
+                    url: 'register',
+                    data: {username: this.username, password: this.password, passwordConfirmation: this.passwordConfirm}
+                }).then(function (response) {
+                    document.location.replace("/");
+                });
+            }
+        }
+    });
+</script>
+</html>
