@@ -24,6 +24,4 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
                 .antMatchers("/post/postComment").authenticated()
                 .antMatchers(HttpMethod.DELETE, "/post/**").hasAuthority("ROLE_ADMIN");
     }
-
-
 }
